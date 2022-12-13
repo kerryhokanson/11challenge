@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const db = require('./db/db.json');
+const {v4: uuidv4} = require('uuid');
 
 const PORT = process.env.PORT || 3001;
 
@@ -29,14 +30,22 @@ res.send(notesObject);
 });
 
 app.post('/api/notes', (req, res) => {
-  const newNote = req.body;
+  const newNote = {...req.body, id: uuidv4()};
   // const newNoteObj = JSON.parse(newNote)
   var notesArrayString = fs.readFileSync("./db/db.json", 'utf8');
   const notesArrayObject = JSON.parse(notesArrayString);
+  // console.log(notesArrayObject)
   notesArrayObject.push(newNote);
-  notesArrayString = JSON.stringify(notesArrayObject);
+  // console.log(notesArrayObject)
 
-  fs.writeFile('./db/db.json', notesArrayString,() => {});
+  notesArrayString = JSON.stringify(notesArrayObject);
+  // console.log(notesArrayString)
+
+  fs.writeFile('./db/db.json', notesArrayString,(err) => {
+    if(err) {
+      console.log(err)
+    }
+  });
 
 
   res.send(notesArrayString);

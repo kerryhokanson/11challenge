@@ -12,8 +12,7 @@
   "dependencies": {
     "clog": "^0.1.6",
     "express": "^4.16.4",
-    "uuid": "^9.0.0",
-    "uuidv4": "^6.2.13"
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
